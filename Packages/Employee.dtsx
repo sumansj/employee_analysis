@@ -1,0 +1,1214 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="6/4/2023 2:22:25 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="DESKTOP-P1P2D8K"
+  DTS:CreatorName="DESKTOP-P1P2D8K\suman"
+  DTS:DTSID="{83C767CC-68A8-4409-A14D-8319208B112F}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="16.0.5035.3"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Package"
+  DTS:PackageType="5"
+  DTS:VersionBuild="9"
+  DTS:VersionGUID="{CE89A341-E09C-4183-9852-736CC99C2C7C}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[DESKTOP-P1P2D8K\SQLSERVER01.Employee_Analysis]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{C547B3F7-6CFB-4CDC-A13B-9E74A585E87B}"
+      DTS:ObjectName="DESKTOP-P1P2D8K\SQLSERVER01.Employee_Analysis">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=DESKTOP-P1P2D8K\SQLSERVER01;Initial Catalog=Employee_Analysis;Provider=SQLNCLI11.1;Integrated Security=SSPI;Application Name=SSIS-Package-{C547B3F7-6CFB-4CDC-A13B-9E74A585E87B}DESKTOP-P1P2D8K\SQLSERVER01.Employee_Analysis;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Excel Connection Manager]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{2B4C3668-660F-4927-89E6-437CD4436EF1}"
+      DTS:ObjectName="Excel Connection Manager">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="0"
+          DTS:ConnectRetryInterval="0"
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Users\suman\Desktop\Employee\Employee_Data.xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Excel Connection Manager 1]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{965D3A3A-0D0E-400A-A00E-DACCDD176E44}"
+      DTS:ObjectName="Excel Connection Manager 1">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="0"
+          DTS:ConnectRetryInterval="0"
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Users\suman\Desktop\Employee\Filter_Employee_Data.xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Delete Data from Stage Table"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{2E6D75C4-2717-4070-83EA-A24D3AF7CCCE}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Delete Data from Stage Table"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2022; © 2022 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{C547B3F7-6CFB-4CDC-A13B-9E74A585E87B}"
+          SQLTask:SqlStatementSource="Truncate Table stage.Employee" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Filter Employee Data and load to Stage DB"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{918E1642-097C-4B66-AD7E-216B84254C68}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Filter Employee Data and load to Stage DB"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Filter Employee Data and load to Stage DB\Data Conversion"
+              componentClassID="Microsoft.DataConvert"
+              contactInfo="Data Conversion;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Data Conversion"
+              name="Data Conversion"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Filter Employee Data and load to Stage DB\Data Conversion.Inputs[Data Conversion Input]"
+                  name="Data Conversion Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\Data Conversion.Inputs[Data Conversion Input].Columns[Name]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Name"
+                      lineageId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Output].Columns[Name]" />
+                    <inputColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\Data Conversion.Inputs[Data Conversion Input].Columns[phone_number]"
+                      cachedDataType="r8"
+                      cachedName="phone_number"
+                      lineageId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Output].Columns[phone_number]" />
+                    <inputColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\Data Conversion.Inputs[Data Conversion Input].Columns[hire_date]"
+                      cachedDataType="date"
+                      cachedName="hire_date"
+                      lineageId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Output].Columns[hire_date]" />
+                    <inputColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\Data Conversion.Inputs[Data Conversion Input].Columns[salary]"
+                      cachedDataType="cy"
+                      cachedName="salary"
+                      lineageId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Output].Columns[salary]" />
+                    <inputColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\Data Conversion.Inputs[Data Conversion Input].Columns[region_id]"
+                      cachedDataType="r8"
+                      cachedName="region_id"
+                      lineageId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Output].Columns[region_id]" />
+                    <inputColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\Data Conversion.Inputs[Data Conversion Input].Columns[country_id]"
+                      cachedDataType="r8"
+                      cachedName="country_id"
+                      lineageId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Output].Columns[country_id]" />
+                    <inputColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\Data Conversion.Inputs[Data Conversion Input].Columns[department_id]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="department_id"
+                      lineageId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Output].Columns[department_id]" />
+                    <inputColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\Data Conversion.Inputs[Data Conversion Input].Columns[manager_Id]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="manager_Id"
+                      lineageId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Output].Columns[manager_Id]" />
+                    <inputColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\Data Conversion.Inputs[Data Conversion Input].Columns[job_id]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="job_id"
+                      lineageId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Output].Columns[job_id]" />
+                    <inputColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\Data Conversion.Inputs[Data Conversion Input].Columns[email]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="email"
+                      lineageId="Package\Filter Employee Data and load to Stage DB\Derived Column.Outputs[Derived Column Output].Columns[email]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Filter Employee Data and load to Stage DB\Data Conversion.Outputs[Data Conversion Output]"
+                  exclusionGroup="1"
+                  name="Data Conversion Output"
+                  synchronousInputId="Package\Filter Employee Data and load to Stage DB\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\Data Conversion.Outputs[Data Conversion Output].Columns[Name]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="100"
+                      lineageId="Package\Filter Employee Data and load to Stage DB\Data Conversion.Outputs[Data Conversion Output].Columns[Name]"
+                      name="Name"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Output].Columns[Name]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\Data Conversion.Outputs[Data Conversion Output].Columns[phone_number]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="15"
+                      lineageId="Package\Filter Employee Data and load to Stage DB\Data Conversion.Outputs[Data Conversion Output].Columns[phone_number]"
+                      name="phone_number"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Output].Columns[phone_number]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\Data Conversion.Outputs[Data Conversion Output].Columns[hire_date]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Filter Employee Data and load to Stage DB\Data Conversion.Outputs[Data Conversion Output].Columns[hire_date]"
+                      name="hire_date"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Output].Columns[hire_date]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\Data Conversion.Outputs[Data Conversion Output].Columns[salary]"
+                      dataType="r4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Filter Employee Data and load to Stage DB\Data Conversion.Outputs[Data Conversion Output].Columns[salary]"
+                      name="salary"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Output].Columns[salary]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\Data Conversion.Outputs[Data Conversion Output].Columns[region_id]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Filter Employee Data and load to Stage DB\Data Conversion.Outputs[Data Conversion Output].Columns[region_id]"
+                      name="region_id"
+                      precision="18"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Output].Columns[region_id]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\Data Conversion.Outputs[Data Conversion Output].Columns[country_id]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Filter Employee Data and load to Stage DB\Data Conversion.Outputs[Data Conversion Output].Columns[country_id]"
+                      name="country_id"
+                      precision="18"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Output].Columns[country_id]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\Data Conversion.Outputs[Data Conversion Output].Columns[department_id]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Filter Employee Data and load to Stage DB\Data Conversion.Outputs[Data Conversion Output].Columns[department_id]"
+                      name="department_id"
+                      precision="18"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Output].Columns[department_id]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\Data Conversion.Outputs[Data Conversion Output].Columns[manager_Id]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Filter Employee Data and load to Stage DB\Data Conversion.Outputs[Data Conversion Output].Columns[manager_Id]"
+                      name="manager_Id"
+                      precision="18"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Output].Columns[manager_Id]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\Data Conversion.Outputs[Data Conversion Output].Columns[job_id]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="5"
+                      lineageId="Package\Filter Employee Data and load to Stage DB\Data Conversion.Outputs[Data Conversion Output].Columns[job_id]"
+                      name="job_id"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Output].Columns[job_id]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\Data Conversion.Outputs[Data Conversion Output].Columns[email]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="100"
+                      lineageId="Package\Filter Employee Data and load to Stage DB\Data Conversion.Outputs[Data Conversion Output].Columns[email]"
+                      name="email"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Filter Employee Data and load to Stage DB\Derived Column.Outputs[Derived Column Output].Columns[email]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Filter Employee Data and load to Stage DB\Data Conversion.Outputs[Data Conversion Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Data Conversion Error Output"
+                  synchronousInputId="Package\Filter Employee Data and load to Stage DB\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Filter Employee Data and load to Stage DB\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Filter Employee Data and load to Stage DB\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Filter Employee Data and load to Stage DB\Derived Column"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Derived Column"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Filter Employee Data and load to Stage DB\Derived Column.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\Derived Column.Inputs[Derived Column Input].Columns[Name]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Name"
+                      lineageId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Output].Columns[Name]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Filter Employee Data and load to Stage DB\Derived Column.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\Filter Employee Data and load to Stage DB\Derived Column.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\Derived Column.Outputs[Derived Column Output].Columns[email]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="255"
+                      lineageId="Package\Filter Employee Data and load to Stage DB\Derived Column.Outputs[Derived Column Output].Columns[email]"
+                      name="email"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">#{Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Output].Columns[Name]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">Name</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Filter Employee Data and load to Stage DB\Derived Column.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\Filter Employee Data and load to Stage DB\Derived Column.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Filter Employee Data and load to Stage DB\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Filter Employee Data and load to Stage DB\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Filter Employee Data and load to Stage DB\Excel Source"
+              componentClassID="Microsoft.ExcelSource"
+              contactInfo="Excel Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Excel Source"
+              name="Excel Source"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">Sheet1$</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mapping from parameters in the SQL command to variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Filter Employee Data and load to Stage DB\Excel Source.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[Excel Connection Manager]"
+                  connectionManagerRefId="Package.ConnectionManagers[Excel Connection Manager]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Output]"
+                  name="Excel Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Output].Columns[Name]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Output].ExternalColumns[Name]"
+                      length="255"
+                      lineageId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Output].Columns[Name]"
+                      name="Name"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Output].Columns[phone_number]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Output].ExternalColumns[phone_number]"
+                      lineageId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Output].Columns[phone_number]"
+                      name="phone_number"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Output].Columns[hire_date]"
+                      dataType="date"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Output].ExternalColumns[hire_date]"
+                      lineageId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Output].Columns[hire_date]"
+                      name="hire_date"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Output].Columns[salary]"
+                      dataType="cy"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Output].ExternalColumns[salary]"
+                      lineageId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Output].Columns[salary]"
+                      name="salary"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Output].Columns[region_id]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Output].ExternalColumns[region_id]"
+                      lineageId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Output].Columns[region_id]"
+                      name="region_id"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Output].Columns[country_id]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Output].ExternalColumns[country_id]"
+                      lineageId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Output].Columns[country_id]"
+                      name="country_id"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Output].Columns[department_id]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Output].ExternalColumns[department_id]"
+                      length="255"
+                      lineageId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Output].Columns[department_id]"
+                      name="department_id"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Output].Columns[manager_Id]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Output].ExternalColumns[manager_Id]"
+                      length="255"
+                      lineageId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Output].Columns[manager_Id]"
+                      name="manager_Id"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Output].Columns[job_id]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Output].ExternalColumns[job_id]"
+                      length="255"
+                      lineageId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Output].Columns[job_id]"
+                      name="job_id"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Output].ExternalColumns[Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="Name" />
+                    <externalMetadataColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Output].ExternalColumns[phone_number]"
+                      dataType="r8"
+                      name="phone_number" />
+                    <externalMetadataColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Output].ExternalColumns[hire_date]"
+                      dataType="date"
+                      name="hire_date" />
+                    <externalMetadataColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Output].ExternalColumns[salary]"
+                      dataType="cy"
+                      name="salary" />
+                    <externalMetadataColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Output].ExternalColumns[region_id]"
+                      dataType="r8"
+                      name="region_id" />
+                    <externalMetadataColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Output].ExternalColumns[country_id]"
+                      dataType="r8"
+                      name="country_id" />
+                    <externalMetadataColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Output].ExternalColumns[department_id]"
+                      dataType="wstr"
+                      length="255"
+                      name="department_id" />
+                    <externalMetadataColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Output].ExternalColumns[manager_Id]"
+                      dataType="wstr"
+                      length="255"
+                      name="manager_Id" />
+                    <externalMetadataColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Output].ExternalColumns[job_id]"
+                      dataType="wstr"
+                      length="255"
+                      name="job_id" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Error Output]"
+                  isErrorOut="true"
+                  name="Excel Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Error Output].Columns[Name]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Error Output].Columns[Name]"
+                      name="Name" />
+                    <outputColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Error Output].Columns[phone_number]"
+                      dataType="r8"
+                      lineageId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Error Output].Columns[phone_number]"
+                      name="phone_number" />
+                    <outputColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Error Output].Columns[hire_date]"
+                      dataType="date"
+                      lineageId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Error Output].Columns[hire_date]"
+                      name="hire_date" />
+                    <outputColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Error Output].Columns[salary]"
+                      dataType="cy"
+                      lineageId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Error Output].Columns[salary]"
+                      name="salary" />
+                    <outputColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Error Output].Columns[region_id]"
+                      dataType="r8"
+                      lineageId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Error Output].Columns[region_id]"
+                      name="region_id" />
+                    <outputColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Error Output].Columns[country_id]"
+                      dataType="r8"
+                      lineageId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Error Output].Columns[country_id]"
+                      name="country_id" />
+                    <outputColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Error Output].Columns[department_id]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Error Output].Columns[department_id]"
+                      name="department_id" />
+                    <outputColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Error Output].Columns[manager_Id]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Error Output].Columns[manager_Id]"
+                      name="manager_Id" />
+                    <outputColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Error Output].Columns[job_id]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Error Output].Columns[job_id]"
+                      name="job_id" />
+                    <outputColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Filter Employee Data and load to Stage DB\OLE DB Destination"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE DB Destination"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[Stage].[Employee]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Filter Employee Data and load to Stage DB\OLE DB Destination.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[DESKTOP-P1P2D8K\SQLSERVER01.Employee_Analysis]"
+                  connectionManagerRefId="Package.ConnectionManagers[DESKTOP-P1P2D8K\SQLSERVER01.Employee_Analysis]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Filter Employee Data and load to Stage DB\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Name]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="100"
+                      cachedName="Name"
+                      externalMetadataColumnId="Package\Filter Employee Data and load to Stage DB\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Employee_Name]"
+                      lineageId="Package\Filter Employee Data and load to Stage DB\Data Conversion.Outputs[Data Conversion Output].Columns[Name]" />
+                    <inputColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[email]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="100"
+                      cachedName="email"
+                      externalMetadataColumnId="Package\Filter Employee Data and load to Stage DB\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[email]"
+                      lineageId="Package\Filter Employee Data and load to Stage DB\Data Conversion.Outputs[Data Conversion Output].Columns[email]" />
+                    <inputColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[phone_number]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="15"
+                      cachedName="phone_number"
+                      externalMetadataColumnId="Package\Filter Employee Data and load to Stage DB\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[phone_number]"
+                      lineageId="Package\Filter Employee Data and load to Stage DB\Data Conversion.Outputs[Data Conversion Output].Columns[phone_number]" />
+                    <inputColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[hire_date]"
+                      cachedDataType="dbDate"
+                      cachedName="hire_date"
+                      externalMetadataColumnId="Package\Filter Employee Data and load to Stage DB\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[hire_date]"
+                      lineageId="Package\Filter Employee Data and load to Stage DB\Data Conversion.Outputs[Data Conversion Output].Columns[hire_date]" />
+                    <inputColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[salary]"
+                      cachedDataType="r4"
+                      cachedName="salary"
+                      externalMetadataColumnId="Package\Filter Employee Data and load to Stage DB\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[salary]"
+                      lineageId="Package\Filter Employee Data and load to Stage DB\Data Conversion.Outputs[Data Conversion Output].Columns[salary]" />
+                    <inputColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[region_id]"
+                      cachedDataType="numeric"
+                      cachedName="region_id"
+                      cachedPrecision="18"
+                      externalMetadataColumnId="Package\Filter Employee Data and load to Stage DB\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[region_id]"
+                      lineageId="Package\Filter Employee Data and load to Stage DB\Data Conversion.Outputs[Data Conversion Output].Columns[region_id]" />
+                    <inputColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[country_id]"
+                      cachedDataType="numeric"
+                      cachedName="country_id"
+                      cachedPrecision="18"
+                      externalMetadataColumnId="Package\Filter Employee Data and load to Stage DB\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[country_id]"
+                      lineageId="Package\Filter Employee Data and load to Stage DB\Data Conversion.Outputs[Data Conversion Output].Columns[country_id]" />
+                    <inputColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[department_id]"
+                      cachedDataType="numeric"
+                      cachedName="department_id"
+                      cachedPrecision="18"
+                      externalMetadataColumnId="Package\Filter Employee Data and load to Stage DB\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[department_id]"
+                      lineageId="Package\Filter Employee Data and load to Stage DB\Data Conversion.Outputs[Data Conversion Output].Columns[department_id]" />
+                    <inputColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[manager_Id]"
+                      cachedDataType="numeric"
+                      cachedName="manager_Id"
+                      cachedPrecision="18"
+                      externalMetadataColumnId="Package\Filter Employee Data and load to Stage DB\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[manager_id]"
+                      lineageId="Package\Filter Employee Data and load to Stage DB\Data Conversion.Outputs[Data Conversion Output].Columns[manager_Id]" />
+                    <inputColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[job_id]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="5"
+                      cachedName="job_id"
+                      externalMetadataColumnId="Package\Filter Employee Data and load to Stage DB\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[job_id]"
+                      lineageId="Package\Filter Employee Data and load to Stage DB\Data Conversion.Outputs[Data Conversion Output].Columns[job_id]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Id]"
+                      dataType="i4"
+                      name="Id" />
+                    <externalMetadataColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Employee_Name]"
+                      codePage="1252"
+                      dataType="str"
+                      length="100"
+                      name="Employee_Name" />
+                    <externalMetadataColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[email]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="email" />
+                    <externalMetadataColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[phone_number]"
+                      codePage="1252"
+                      dataType="str"
+                      length="15"
+                      name="phone_number" />
+                    <externalMetadataColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[hire_date]"
+                      dataType="dbDate"
+                      name="hire_date" />
+                    <externalMetadataColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[salary]"
+                      dataType="r8"
+                      name="salary" />
+                    <externalMetadataColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[region_id]"
+                      dataType="i4"
+                      name="region_id" />
+                    <externalMetadataColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[country_id]"
+                      dataType="i4"
+                      name="country_id" />
+                    <externalMetadataColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[department_id]"
+                      dataType="i4"
+                      name="department_id" />
+                    <externalMetadataColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[manager_id]"
+                      dataType="i4"
+                      name="manager_id" />
+                    <externalMetadataColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[job_id]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      name="job_id" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Filter Employee Data and load to Stage DB\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Filter Employee Data and load to Stage DB\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Filter Employee Data and load to Stage DB\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Filter Employee Data and load to Stage DB\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Filter Employee Data and load to Stage DB\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Filter Employee Data and load to Stage DB.Paths[Data Conversion Output]"
+              endId="Package\Filter Employee Data and load to Stage DB\OLE DB Destination.Inputs[OLE DB Destination Input]"
+              name="Data Conversion Output"
+              startId="Package\Filter Employee Data and load to Stage DB\Data Conversion.Outputs[Data Conversion Output]" />
+            <path
+              refId="Package\Filter Employee Data and load to Stage DB.Paths[Derived Column Output]"
+              endId="Package\Filter Employee Data and load to Stage DB\Data Conversion.Inputs[Data Conversion Input]"
+              name="Derived Column Output"
+              startId="Package\Filter Employee Data and load to Stage DB\Derived Column.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\Filter Employee Data and load to Stage DB.Paths[Excel Source Output]"
+              endId="Package\Filter Employee Data and load to Stage DB\Derived Column.Inputs[Derived Column Input]"
+              name="Excel Source Output"
+              startId="Package\Filter Employee Data and load to Stage DB\Excel Source.Outputs[Excel Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Insert Data to Main Table"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{5DA86394-6443-4F06-8834-F460ED1F7C6B}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Insert Data to Main Table"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2022; © 2022 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{C547B3F7-6CFB-4CDC-A13B-9E74A585E87B}"
+          SQLTask:SqlStatementSource="Exec [dbo].[SP_Employee_Insert]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{A3606463-3BEC-415C-A0C3-B811D5333084}"
+      DTS:From="Package\Filter Employee Data and load to Stage DB"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Insert Data to Main Table" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{8749149D-374A-435A-A8EB-72D85B4546CB}"
+      DTS:From="Package\Delete Data from Stage Table"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Filter Employee Data and load to Stage DB" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="289,42"
+          Id="Package\Filter Employee Data and load to Stage DB"
+          TopLeft="213,144" />
+        <NodeLayout
+          Size="202,42"
+          Id="Package\Insert Data to Main Table"
+          TopLeft="259,213" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="358.75,186">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,27"
+              Start="0,0"
+              End="0,19.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,19.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="224,42"
+          Id="Package\Delete Data from Stage Table"
+          TopLeft="249,77" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="359.25,119">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,25"
+              Start="0,0"
+              End="0,17.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,17.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Filter Employee Data and load to Stage DB">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="144,42"
+          Id="Package\Filter Employee Data and load to Stage DB\Excel Source"
+          TopLeft="279,25" />
+        <NodeLayout
+          Size="158,42"
+          Id="Package\Filter Employee Data and load to Stage DB\Derived Column"
+          TopLeft="279,116" />
+        <EdgeLayout
+          Id="Package\Filter Employee Data and load to Stage DB.Paths[Excel Source Output]"
+          TopLeft="354.5,67">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,49"
+              Start="0,0"
+              End="0,41.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,41.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="161,42"
+          Id="Package\Filter Employee Data and load to Stage DB\Data Conversion"
+          TopLeft="282,207" />
+        <EdgeLayout
+          Id="Package\Filter Employee Data and load to Stage DB.Paths[Derived Column Output]"
+          TopLeft="360.25,158">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,49"
+              Start="0,0"
+              End="0,41.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,41.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="177,42"
+          Id="Package\Filter Employee Data and load to Stage DB\OLE DB Destination"
+          TopLeft="277,297" />
+        <EdgeLayout
+          Id="Package\Filter Employee Data and load to Stage DB.Paths[Data Conversion Output]"
+          TopLeft="364,249">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,48"
+              Start="0,0"
+              End="0,40.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,40.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Filter Employee Data and load to Stage DB\Excel Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Filter Employee Data and load to Stage DB\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
